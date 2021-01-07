@@ -1,5 +1,6 @@
 const express = require('express');
 const logger = require('morgan');
+const cors = require('cors');
 
 require('dotenv').config();
 require('./config/database');
@@ -10,10 +11,10 @@ const port = process.env.PORT || 3001;
 // mount middleware
 app.use(express.json());
 app.use(logger('dev'));
-// app.use(cors());
+app.use(cors());
 
 // mount routes
-// app.use('/api/users', require('./routes/api/users'));
+app.use('/api/users', require('./routes/api/users'));
 
 // tell express to listen
 
