@@ -5,7 +5,8 @@ const jwt = require('jsonwebtoken');
 
 // handle exports
 module.exports = {
-    signup
+    signup,
+    login
 };
 
 // define singup controller action
@@ -19,6 +20,24 @@ async function signup(req, res) {
         
     } catch (error) {
         res.status(400).json({ msg: 'bad request' });
+    }
+}
+
+async function login(req, res) {
+    try {
+        const user = await User.findOne({ email: req.body.email });
+        if(!user) return res.status(401).json({ err: 'bad credentials' });
+        
+        user.comparePassword(req.body.password, (err, isMatch) => {
+            if(isMatch) {
+                const token = createJWT(user);
+                res.json({ token });
+            } else {
+                return res.status(401).json({ err: 'bad credentials' });
+            }
+        });
+    } catch (error) {
+        res.status(400).json({ err: 'bad request' });
     }
 }
 

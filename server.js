@@ -2,11 +2,11 @@ const express = require('express');
 const logger = require('morgan');
 const cors = require('cors');
 
-require('dotenv').config();
-require('./config/database');
-
 const app = express();
 const port = process.env.PORT || 3001;
+
+require('dotenv').config();
+require('./config/database');
 
 // mount middleware
 app.use(express.json());
